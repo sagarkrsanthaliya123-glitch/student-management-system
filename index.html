@@ -248,14 +248,72 @@ td{
     padding:12px 0;
 }
 
+/* MARKS */
+.marks-box{
+    margin-top:25px;
+    padding-top:20px;
+    border-top:1px solid #e5e7eb;
+}
+
+.marks-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+}
+
+.marks-grid input{
+    width:100%;
+    padding:11px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    outline:none;
+}
+
+.marks-grid input:focus{
+    border-color:#2563eb;
+}
+
+.marks-title{
+    margin-bottom:15px;
+}
+
+.result-status{
+    margin-top:18px;
+    padding:12px;
+    border-radius:8px;
+    font-weight:bold;
+    text-align:center;
+}
+
+.pass{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.fail{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.grade{
+    font-size:20px;
+    font-weight:bold;
+}
+
 /* MOBILE */
 @media(max-width:900px){
+
     .cards{
         grid-template-columns:repeat(2,1fr);
+    }
+
+    .marks-grid{
+        grid-template-columns:1fr 1fr 1fr;
     }
 }
 
 @media(max-width:650px){
+
     .container{
         display:block;
     }
@@ -286,8 +344,16 @@ td{
         grid-template-columns:1fr;
     }
 
+    .marks-grid{
+        grid-template-columns:1fr;
+    }
+
     .header h1{
         font-size:22px;
+    }
+
+    .result-box{
+        padding:18px;
     }
 }
 </style>
@@ -364,12 +430,16 @@ td{
     </div>
 
     <div class="form-box">
+
         <h3>System Overview</h3>
+
         <br>
+
         <p>
             This Student Management System helps manage student information,
             attendance records and academic results in one place.
         </p>
+
     </div>
 
 </div>
@@ -389,27 +459,41 @@ td{
 
             <div class="input-group">
                 <label>Student Name</label>
-                <input type="text" id="studentName" placeholder="Enter student name">
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student name">
             </div>
 
             <div class="input-group">
                 <label>Roll Number</label>
-                <input type="text" id="rollNumber" placeholder="Enter roll number">
+                <input
+                    type="text"
+                    id="rollNumber"
+                    placeholder="Enter roll number">
             </div>
 
             <div class="input-group">
                 <label>Email</label>
-                <input type="email" id="studentEmail" placeholder="Enter email">
+                <input
+                    type="email"
+                    id="studentEmail"
+                    placeholder="Enter email">
             </div>
 
             <div class="input-group">
                 <label>Phone</label>
-                <input type="text" id="studentPhone" placeholder="Enter phone number">
+                <input
+                    type="text"
+                    id="studentPhone"
+                    placeholder="Enter phone number">
             </div>
 
             <div class="input-group">
                 <label>Course</label>
+
                 <select id="course">
+
                     <option value="">Select Course</option>
                     <option>BCA</option>
                     <option>B.Tech</option>
@@ -417,24 +501,35 @@ td{
                     <option>MCA</option>
                     <option>MBA</option>
                     <option>Other</option>
+
                 </select>
+
             </div>
 
             <div class="input-group">
+
                 <label>Year</label>
+
                 <select id="year">
+
                     <option value="">Select Year</option>
                     <option>1st Year</option>
                     <option>2nd Year</option>
                     <option>3rd Year</option>
                     <option>4th Year</option>
+
                 </select>
+
             </div>
 
         </div>
 
-        <button class="btn btn-primary" onclick="addStudent()">
+        <button
+            class="btn btn-primary"
+            onclick="addStudent()">
+
             Add Student
+
         </button>
 
     </div>
@@ -446,8 +541,13 @@ td{
 <div id="students" class="section">
 
     <div class="section-title">
+
         <h2>Student List</h2>
-        <p>View and manage all students</p>
+
+        <p>
+            View and manage all students
+        </p>
+
     </div>
 
     <div class="table-box">
@@ -457,20 +557,23 @@ td{
             id="searchStudent"
             type="text"
             placeholder="🔍 Search student by name, roll number or course..."
-            onkeyup="displayStudents()"
-        >
+            onkeyup="displayStudents()">
 
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>Roll No.</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Course</th>
                     <th>Year</th>
                     <th>Actions</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="studentTable"></tbody>
@@ -486,8 +589,13 @@ td{
 <div id="attendance" class="section">
 
     <div class="section-title">
+
         <h2>Attendance</h2>
-        <p>Update student attendance</p>
+
+        <p>
+            Update student attendance
+        </p>
+
     </div>
 
     <div class="table-box">
@@ -495,11 +603,15 @@ td{
         <table>
 
             <thead>
+
                 <tr>
+
                     <th>Roll No.</th>
                     <th>Student Name</th>
                     <th>Attendance (%)</th>
+
                 </tr>
+
             </thead>
 
             <tbody id="attendanceTable"></tbody>
@@ -515,23 +627,120 @@ td{
 <div id="results" class="section">
 
     <div class="section-title">
+
         <h2>Academic Results</h2>
-        <p>Student marks and percentage</p>
+
+        <p>
+            Enter and manage student marks
+        </p>
+
     </div>
 
     <div class="result-box">
 
+        <!-- SELECT STUDENT -->
+
         <div class="input-group">
+
             <label>Select Student</label>
 
-            <select id="resultStudent" onchange="showResult()">
-                <option value="">Select Student</option>
+            <select
+                id="resultStudent"
+                onchange="showResult()">
+
+                <option value="">
+                    Select Student
+                </option>
+
             </select>
+
         </div>
 
-        <br>
 
-        <div id="resultDisplay"></div>
+        <!-- MARKS ENTRY -->
+
+        <div
+            id="marksSection"
+            class="marks-box"
+            style="display:none;">
+
+            <div class="marks-title">
+
+                <h3>Enter Marks</h3>
+
+            </div>
+
+            <div class="marks-grid">
+
+                <div class="input-group">
+
+                    <label>
+                        Mathematics
+                    </label>
+
+                    <input
+                        type="number"
+                        id="mathMarks"
+                        min="0"
+                        max="100"
+                        placeholder="0 - 100"
+                        onchange="saveMarks()">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Science
+                    </label>
+
+                    <input
+                        type="number"
+                        id="scienceMarks"
+                        min="0"
+                        max="100"
+                        placeholder="0 - 100"
+                        onchange="saveMarks()">
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Computer
+                    </label>
+
+                    <input
+                        type="number"
+                        id="computerMarks"
+                        min="0"
+                        max="100"
+                        placeholder="0 - 100"
+                        onchange="saveMarks()">
+
+                </div>
+
+            </div>
+
+            <button
+                class="btn btn-primary"
+                onclick="saveMarks()">
+
+                💾 Save Marks
+
+            </button>
+
+        </div>
+
+
+        <!-- RESULT DISPLAY -->
+
+        <div
+            id="resultDisplay"
+            style="margin-top:25px;">
+        </div>
 
     </div>
 
@@ -543,136 +752,285 @@ td{
 
 <script>
 
-let students = JSON.parse(localStorage.getItem("students")) || [];
+let students =
+    JSON.parse(localStorage.getItem("students")) || [];
 
 
 /* SHOW SECTION */
-function showSection(sectionId, button){
 
-    document.querySelectorAll(".section").forEach(section=>{
-        section.classList.remove("active");
-    });
+function showSection(sectionId,button){
 
-    document.getElementById(sectionId).classList.add("active");
+    document
+        .querySelectorAll(".section")
+        .forEach(section=>{
 
-    document.querySelectorAll(".sidebar button").forEach(btn=>{
-        btn.classList.remove("active");
-    });
+            section.classList.remove("active");
+
+        });
+
+    document
+        .getElementById(sectionId)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".sidebar button")
+        .forEach(btn=>{
+
+            btn.classList.remove("active");
+
+        });
+
 
     button.classList.add("active");
 
+
     displayStudents();
+
     displayAttendance();
+
+    updateDashboard();
+
     updateResultDropdown();
+
 }
 
 
 /* ADD STUDENT */
+
 function addStudent(){
 
-    let name = document.getElementById("studentName").value.trim();
-    let roll = document.getElementById("rollNumber").value.trim();
-    let email = document.getElementById("studentEmail").value.trim();
-    let phone = document.getElementById("studentPhone").value.trim();
-    let course = document.getElementById("course").value;
-    let year = document.getElementById("year").value;
+    let name =
+        document
+        .getElementById("studentName")
+        .value
+        .trim();
+
+    let roll =
+        document
+        .getElementById("rollNumber")
+        .value
+        .trim();
+
+    let email =
+        document
+        .getElementById("studentEmail")
+        .value
+        .trim();
+
+    let phone =
+        document
+        .getElementById("studentPhone")
+        .value
+        .trim();
+
+    let course =
+        document
+        .getElementById("course")
+        .value;
+
+    let year =
+        document
+        .getElementById("year")
+        .value;
+
 
     if(!name || !roll || !course || !year){
 
-        alert("Please fill all required fields.");
+        alert(
+            "Please fill all required fields."
+        );
+
         return;
+
     }
+
+
+    /* CHECK DUPLICATE ROLL NUMBER */
+
+    let duplicate =
+        students.some(
+            s =>
+            s.roll.toLowerCase() ===
+            roll.toLowerCase()
+        );
+
+
+    if(duplicate){
+
+        alert(
+            "This roll number already exists."
+        );
+
+        return;
+
+    }
+
 
     let student = {
 
-        id: Date.now(),
+        id:Date.now(),
 
         name:name,
+
         roll:roll,
+
         email:email,
+
         phone:phone,
+
         course:course,
+
         year:year,
 
         attendance:75,
 
         math:0,
+
         science:0,
+
         computer:0
 
     };
 
+
     students.push(student);
 
-    localStorage.setItem("students",JSON.stringify(students));
 
-    alert("Student added successfully!");
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
 
-    document.getElementById("studentName").value="";
-    document.getElementById("rollNumber").value="";
-    document.getElementById("studentEmail").value="";
-    document.getElementById("studentPhone").value="";
-    document.getElementById("course").value="";
-    document.getElementById("year").value="";
+
+    alert(
+        "Student added successfully!"
+    );
+
+
+    document.getElementById(
+        "studentName"
+    ).value="";
+
+    document.getElementById(
+        "rollNumber"
+    ).value="";
+
+    document.getElementById(
+        "studentEmail"
+    ).value="";
+
+    document.getElementById(
+        "studentPhone"
+    ).value="";
+
+    document.getElementById(
+        "course"
+    ).value="";
+
+    document.getElementById(
+        "year"
+    ).value="";
+
 
     displayStudents();
+
+    displayAttendance();
+
     updateDashboard();
+
     updateResultDropdown();
 
 }
 
 
 /* DISPLAY STUDENTS */
+
 function displayStudents(){
 
-    let table = document.getElementById("studentTable");
+    let table =
+        document.getElementById(
+            "studentTable"
+        );
+
 
     if(!table) return;
 
+
     let search =
-        document.getElementById("searchStudent")?.value.toLowerCase() || "";
+        document
+        .getElementById(
+            "searchStudent"
+        )
+        ?.value
+        .toLowerCase() || "";
+
 
     table.innerHTML="";
 
-    let filtered = students.filter(s=>
 
-        s.name.toLowerCase().includes(search) ||
-        s.roll.toLowerCase().includes(search) ||
-        s.course.toLowerCase().includes(search)
+    let filtered =
+        students.filter(s=>
 
-    );
+            s.name
+            .toLowerCase()
+            .includes(search)
+
+            ||
+
+            s.roll
+            .toLowerCase()
+            .includes(search)
+
+            ||
+
+            s.course
+            .toLowerCase()
+            .includes(search)
+
+        );
+
 
     filtered.forEach(student=>{
 
-        let row = document.createElement("tr");
+        let row =
+            document.createElement("tr");
+
 
         row.innerHTML=`
 
-        <td>${student.roll}</td>
+            <td>${student.roll}</td>
 
-        <td>${student.name}</td>
+            <td>${student.name}</td>
 
-        <td>${student.email || "-"}</td>
+            <td>${student.email || "-"}</td>
 
-        <td>${student.course}</td>
+            <td>${student.course}</td>
 
-        <td>${student.year}</td>
+            <td>${student.year}</td>
 
-        <td>
+            <td>
 
-        <button class="action edit"
-        onclick="editStudent(${student.id})">
-        Edit
-        </button>
+                <button
+                    class="action edit"
+                    onclick="editStudent(${student.id})">
 
-        <button class="action delete"
-        onclick="deleteStudent(${student.id})">
-        Delete
-        </button>
+                    Edit
 
-        </td>
+                </button>
+
+                <button
+                    class="action delete"
+                    onclick="deleteStudent(${student.id})">
+
+                    Delete
+
+                </button>
+
+            </td>
 
         `;
+
 
         table.appendChild(row);
 
@@ -682,86 +1040,156 @@ function displayStudents(){
 
 
 /* DELETE */
+
 function deleteStudent(id){
 
-    if(!confirm("Are you sure you want to delete this student?"))
+    if(
+        !confirm(
+            "Are you sure you want to delete this student?"
+        )
+    )
         return;
 
-    students = students.filter(s=>s.id!==id);
 
-    localStorage.setItem("students",JSON.stringify(students));
+    students =
+        students.filter(
+            s => s.id !== id
+        );
+
+
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
+
 
     displayStudents();
+
     displayAttendance();
+
     updateDashboard();
+
     updateResultDropdown();
+
+    document.getElementById(
+        "resultDisplay"
+    ).innerHTML="";
 
 }
 
 
 /* EDIT */
+
 function editStudent(id){
 
-    let student = students.find(s=>s.id===id);
+    let student =
+        students.find(
+            s => s.id === id
+        );
+
 
     if(!student) return;
 
-    let name = prompt("Student Name:",student.name);
+
+    let name =
+        prompt(
+            "Student Name:",
+            student.name
+        );
+
 
     if(name===null) return;
 
-    let course = prompt("Course:",student.course);
+
+    let course =
+        prompt(
+            "Course:",
+            student.course
+        );
+
 
     if(course===null) return;
 
-    let year = prompt("Year:",student.year);
+
+    let year =
+        prompt(
+            "Year:",
+            student.year
+        );
+
 
     if(year===null) return;
 
-    student.name=name;
-    student.course=course;
-    student.year=year;
 
-    localStorage.setItem("students",JSON.stringify(students));
+    student.name =
+        name.trim();
+
+    student.course =
+        course.trim();
+
+    student.year =
+        year.trim();
+
+
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
+
 
     displayStudents();
+
+    displayAttendance();
+
     updateDashboard();
+
     updateResultDropdown();
 
 }
 
 
 /* ATTENDANCE */
+
 function displayAttendance(){
 
-    let table=document.getElementById("attendanceTable");
+    let table =
+        document.getElementById(
+            "attendanceTable"
+        );
+
 
     if(!table) return;
 
+
     table.innerHTML="";
+
 
     students.forEach(student=>{
 
-        let row=document.createElement("tr");
+        let row =
+            document.createElement("tr");
+
 
         row.innerHTML=`
 
-        <td>${student.roll}</td>
+            <td>${student.roll}</td>
 
-        <td>${student.name}</td>
+            <td>${student.name}</td>
 
-        <td>
+            <td>
 
-        <input type="number"
-        min="0"
-        max="100"
-        value="${student.attendance}"
-        onchange="updateAttendance(${student.id},this.value)"
-        style="width:100px;padding:8px;">
+                <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    value="${student.attendance}"
+                    onchange="updateAttendance(${student.id},this.value)"
+                    style="width:100px;padding:8px;">
 
-        </td>
+            </td>
 
         `;
+
 
         table.appendChild(row);
 
@@ -771,15 +1199,32 @@ function displayAttendance(){
 
 
 /* UPDATE ATTENDANCE */
+
 function updateAttendance(id,value){
 
-    let student=students.find(s=>s.id===id);
+    let student =
+        students.find(
+            s => s.id === id
+        );
+
 
     if(student){
 
-        student.attendance=Math.max(0,Math.min(100,Number(value)));
+        student.attendance =
+            Math.max(
+                0,
+                Math.min(
+                    100,
+                    Number(value)
+                )
+            );
 
-        localStorage.setItem("students",JSON.stringify(students));
+
+        localStorage.setItem(
+            "students",
+            JSON.stringify(students)
+        );
+
 
         updateDashboard();
 
@@ -789,122 +1234,17 @@ function updateAttendance(id,value){
 
 
 /* RESULTS DROPDOWN */
+
 function updateResultDropdown(){
 
-    let select=document.getElementById("resultStudent");
+    let select =
+        document.getElementById(
+            "resultStudent"
+        );
+
 
     if(!select) return;
 
-    select.innerHTML='<option value="">Select Student</option>';
 
-    students.forEach(student=>{
-
-        let option=document.createElement("option");
-
-        option.value=student.id;
-
-        option.textContent=
-            student.roll+" - "+student.name;
-
-        select.appendChild(option);
-
-    });
-
-}
-
-
-/* SHOW RESULT */
-function showResult(){
-
-    let id=Number(document.getElementById("resultStudent").value);
-
-    let display=document.getElementById("resultDisplay");
-
-    if(!id){
-
-        display.innerHTML="";
-        return;
-
-    }
-
-    let student=students.find(s=>s.id===id);
-
-    if(!student) return;
-
-    let math=student.math || 0;
-    let science=student.science || 0;
-    let computer=student.computer || 0;
-
-    let total=math+science+computer;
-
-    let percentage=(total/300)*100;
-
-    display.innerHTML=`
-
-        <h3>${student.name}</h3>
-
-        <div class="result-row">
-            <span>Mathematics</span>
-            <strong>${math}/100</strong>
-        </div>
-
-        <div class="result-row">
-            <span>Science</span>
-            <strong>${science}/100</strong>
-        </div>
-
-        <div class="result-row">
-            <span>Computer</span>
-            <strong>${computer}/100</strong>
-        </div>
-
-        <div class="result-row">
-            <span>Total</span>
-            <strong>${total}/300</strong>
-        </div>
-
-        <div class="result-row">
-            <span>Percentage</span>
-            <strong>${percentage.toFixed(2)}%</strong>
-        </div>
-
-    `;
-
-}
-
-
-/* DASHBOARD */
-function updateDashboard(){
-
-    document.getElementById("totalStudents").textContent=
-        students.length;
-
-    if(students.length===0){
-
-        document.getElementById("averageAttendance").textContent="0%";
-        return;
-
-    }
-
-    let total=students.reduce(
-        (sum,s)=>sum+Number(s.attendance||0),0
-    );
-
-    let average=total/students.length;
-
-    document.getElementById("averageAttendance").textContent=
-        average.toFixed(1)+"%";
-
-}
-
-
-/* INITIAL LOAD */
-displayStudents();
-displayAttendance();
-updateDashboard();
-updateResultDropdown();
-
-</script>
-
-</body>
-</html>
+    let current =
+        select.
