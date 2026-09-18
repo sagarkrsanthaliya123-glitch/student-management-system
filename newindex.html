@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Student Management System</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f1f5f9;
+    color:#1e293b;
+}
+
+/* HEADER */
+
+.header{
+    background:#1e3a8a;
+    color:white;
+    text-align:center;
+    padding:20px 10px;
+}
+
+.header h1{
+    margin:0;
+    font-size:25px;
+}
+
+.header p{
+    margin:7px 0 0;
+}
+
+/* NAVIGATION */
+
+.nav{
+    background:white;
+    padding:10px;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    box-shadow:0 2px 8px #ccc;
+}
+
+.nav button{
+    border:0;
+    padding:11px 15px;
+    border-radius:7px;
+    background:#e2e8f0;
+    color:#1e3a8a;
+    font-weight:bold;
+    white-space:nowrap;
+}
+
+.nav button.active{
+    background:#1e3a8a;
+    color:white;
+}
+
+/* MAIN */
+
+.container{
+    width:94%;
+    max-width:1100px;
+    margin:20px auto;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.title{
+    color:#1e3a8a;
+}
+
+/* DASHBOARD */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    text-align:center;
+    border-radius:12px;
+    box-shadow:0 2px 8px #ddd;
+}
+
+.card h3{
+    margin:0;
+    font-size:15px;
+}
+
+.number{
+    font-size:30px;
+    font-weight:bold;
+    color:#1e3a8a;
+    margin-top:10px;
+}
+
+/* BOX */
+
+.box{
+    background:white;
+    padding:18px;
+    margin-top:18px;
+    border-radius:12px;
+    box-shadow:0 2px 8px #ddd;
+}
+
+/* FORM */
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+input,select{
+    width:100%;
+    padding:11px;
+    border:1px solid #cbd5e1;
+    border-radius:7px;
+    font-size:15px;
+}
+
+/* BUTTONS */
+
+.btn{
+    border:0;
+    padding:9px 12px;
+    border-radius:6px;
+    font-weight:bold;
+    margin:4px 2px;
+}
+
+.blue{
+    background:#2563eb;
+    color:white;
+}
+
+.green{
+    background:#16a34a;
+    color:white;
+}
+
+.orange{
+    background:#f59e0b;
+    color:white;
+}
+
+.red{
+    background:#dc2626;
+    color:white;
+}
+
+.gray{
+    background:#64748b;
+    color:white;
+}
+
+/* TABLE */
+
+.table{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+    min-width:700px;
+}
+
+th,td{
+    border:1px solid #cbd5e1;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#1e3a8a;
+    color:white;
+}
+
+tr:nth-child(even){
+    background:#f8fafc;
+}
+
+/* INFO */
+
+.info-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.info{
+    background:#eff6ff;
+    padding:12px;
+    border-radius:7px;
+}
+
+.info b{
+    color:#1e3a8a;
+}
+
+/* SEARCH */
+
+.search{
+    margin-top:12px;
+}
+
+/* FOOTER */
+
+.footer{
+    text-align:center;
+    padding:25px;
+    color:#64748b;
+}
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .header h1{
+        font-size:21px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<!-- HEADER -->
+
+<div class="header">
+
+<h1>Student Management System</h1>
+
+<p>College Student Record Management</p>
+
+</div>
+
+
+<!-- NAVIGATION -->
+
+<div class="nav">
+
+<button id="btnDashboard"
+class="active"
+onclick="openPage('dashboard')">
+🏠 Dashboard
+</button>
+
+<button id="btnStudents"
+onclick="openPage('students')">
+👨‍🎓 Students
+</button>
+
+<button id="btnAttendance"
+onclick="openPage('attendance')">
+📋 Attendance
+</button>
+
+<button id="btnResult"
+onclick="openPage('result')">
+📊 Result
+</button>
+
+</div>
+
+
+<div class="container">
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div id="dashboard" class="page active">
+
+<h2 class="title">Dashboard</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>Total Students</h3>
+<div class="number" id="totalStudents">0</div>
+</div>
+
+<div class="card">
+<h3>Attendance Records</h3>
+<div class="number" id="totalAttendance">0</div>
+</div>
+
+<div class="card">
+<h3>Result Records</h3>
+<div class="number" id="totalResults">0</div>
+</div>
+
+<div class="card">
+<h3>Passed Students</h3>
+<div class="number" id="passedStudents">0</div>
+</div>
+
+</div>
+
+
+<div class="box">
+
+<h3>System Overview</h3>
+
+<p>
+Student Management System is used to manage student
+details, attendance and examination results.
+</p>
+
+<p>
+Students can be added, searched, viewed, edited and deleted.
+Each student's attendance and result are maintained separately.
+</p>
+
+</div>
+
+</div>
+
+
+
+<!-- ================= STUDENTS ================= -->
+
+<div id="students" class="page">
+
+<h2 class="title">Student Management</h2>
+
+
+<div class="box">
+
+<h3>Add Student</h3>
+
+<br>
+
+<div class="form-grid">
+
+<div>
+
+<label>Name</label>
+
+<input id="name"
+type="text"
+placeholder="Enter student name">
+
+</div>
+
+
+<div>
+
+<label>Exam Roll No.</label>
+
+<input id="roll"
+type="text"
+placeholder="Enter roll number">
+
+</div>
+
+
+<div>
+
+<label>Semester</label>
+
+<select id="semester">
+
+<option value="">Select Semester</option>
+
+<option>Semester 1</option>
+<option>Semester 2</option>
+<option>Semester 3</option>
+<option>Semester 4</option>
+<option>Semester 5</option>
+<option>Semester 6</option>
+<option>Semester 7</option>
+<option>Semester 8</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Department</label>
+
+<input id="department"
+type="text"
+placeholder="Information Technology">
+
+</div>
+
+
+<div>
+
+<label>Session</label>
+
+<input id="session"
+type="text"
+placeholder="2023-2027">
+
+</div>
+
+</div>
+
+
+<br>
+
+<button class="btn blue"
+onclick="saveStudent()">
+Save Student
+</button>
+
+<button class="btn gray"
+onclick="clearForm()">
+Clear
+</button>
+
+</div>
+
+
+
+<div class="box">
+
+<h3>Saved Students</h3>
+
+<input
+class="search"
+id="search"
+type="text"
+placeholder="Search by name or roll number"
+onkeyup="showStudents()"
+>
+
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>S.No.</th>
+<th>Name</th>
+<th>Roll No.</th>
+<th>Semester</th>
+<th>Department</th>
+<th>Session</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="studentList"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- ================= ATTENDANCE ================= -->
+
+<div id="attendance" class="page">
+
+<h2 class="title">Attendance Management</h2>
+
+
+<div id="attendanceInfo"></div>
+
+
+<div class="box">
+
+<h3>Add Attendance</h3>
+
+<br>
+
+<div class="form-grid">
+
+<div>
+
+<label>Subject</label>
+
+<input id="attSubject"
+type="text"
+placeholder="Enter subject">
+
+</div>
+
+
+<div>
+
+<label>Total Classes</label>
+
+<input id="totalClass"
+type="number"
+placeholder="Total classes">
+
+</div>
+
+
+<div>
+
+<label>Classes Attended</label>
+
+<input id="attendedClass"
+type="number"
+placeholder="Classes attended">
+
+</div>
+
+</div>
+
+
+<br>
+
+<button class="btn blue"
+onclick="saveAttendance()">
+Save Attendance
+</button>
+
+</div>
+
+
+<div class="box">
+
+<h3>Attendance Records</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>S.No.</th>
+<th>Subject</th>
+<th>Total</th>
+<th>Attended</th>
+<th>Absent</th>
+<th>Percentage</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="attendanceList"></tbody>
+
+</table>
+
+</div>
+
+
+<br>
+
+<h3>
+Overall Attendance:
+<span id="overallAttendance">0%</span>
+</h3>
+
+</div>
+
+</div>
+
+
+
+<!-- ================= RESULT ================= -->
+
+<div id="result" class="page">
+
+<h2 class="title">Result Management</h2>
+
+
+<div id="resultInfo"></div>
+
+
+<div class="box">
+
+<h3>Add Result</h3>
+
+<br>
+
+<div class="form-grid">
+
+<div>
+
+<label>Subject</label>
+
+<input id="resultSubject"
+type="text"
+placeholder="Enter subject">
+
+</div>
+
+
+<div>
+
+<label>Maximum Marks</label>
+
+<input id="maxMarks"
+type="number"
+placeholder="Maximum marks">
+
+</div>
+
+
+<div>
+
+<label>Obtained Marks</label>
+
+<input id="obtainedMarks"
+type="number"
+placeholder="Obtained marks">
+
+</div>
+
+</div>
+
+
+<br>
+
+<button class="btn blue"
+onclick="saveResult()">
+Save Result
+</button>
+
+</div>
+
+
+<div class="box">
+
+<h3>Result Records</h3>
+
+<div class="table">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>S.No.</th>
+<th>Subject</th>
+<th>Maximum</th>
+<th>Obtained</th>
+<th>Percentage</th>
+<th>Grade</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody id="resultList"></tbody>
+
+</table>
+
+</div>
+
+
+<br>
+
+<h3>
+Overall Percentage:
+<span id="overallResult">0%</span>
+</h3>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+<div class="footer">
+
+Student Management System © 2026
+
+</div>
+
+
+
+<script>
+
+/* ================= DATA ================= */
+
+var students = [];
+
+var selectedStudent = -1;
+
+var editStudent = -1;
+
+
+/* ================= LOAD DATA ================= */
+
+var oldData = localStorage.getItem("studentManagementData");
+
+if(oldData){
+
+    try{
+
+        students = JSON.parse(oldData);
+
+    }
+
+    catch(e){
+
+        students = [];
+
+    }
+
+}
+
+
+/* ================= SAVE DATA ================= */
+
+function saveData(){
+
+    localStorage.setItem(
+        "studentManagementData",
+        JSON.stringify(students)
+    );
+
+}
+
+
+/* ================= OPEN PAGE ================= */
+
+function openPage(page){
+
+    var pages = document.getElementsByClassName("page");
+
+    for(var i=0;i<pages.length;i++){
+
+        pages[i].classList.remove("active");
+
+    }
+
+
+    document.getElementById(page)
+    .classList.add("active");
+
+
+    var buttons = document.querySelectorAll(".nav button");
+
+    for(var j=0;j<buttons.length;j++){
+
+        buttons[j].classList.remove("active");
+
+    }
+
+
+    if(page=="dashboard"){
+
+        document.getElementById("btnDashboard")
+        .classList.add("active");
+
+    }
+
+    if(page=="students"){
+
+        document.getElementById("btnStudents")
+        .classList.add("active");
+
+    }
+
+    if(page=="attendance"){
+
+        document.getElementById("btnAttendance")
+        .classList.add("active");
+
+        showSelectedStudent();
+
+    }
+
+    if(page=="result"){
+
+        document.getElementById("btnResult")
+        .classList.add("active");
+
+        showSelectedStudent();
+
+    }
+
+
+    updateDashboard();
+
+}
+
+
+/* ================= SAVE STUDENT ================= */
+
+function saveStudent(){
+
+    var name =
+        document.getElementById("name").value.trim();
+
+    var roll =
+        document.getElementById("roll").value.trim();
+
+    var semester =
+        document.getElementById("semester").value;
+
+    var department =
+        document.getElementById("department").value.trim();
+
+    var session =
+        document.getElementById("session").value.trim();
+
+
+    if(
+        name=="" ||
+        roll=="" ||
+        semester=="" ||
+        department=="" ||
+        session==""
+    ){
+
+        alert("Please fill all student details.");
+
+        return;
+
+    }
+
+
+    if(editStudent>=0){
+
+        students[editStudent].name=name;
+        students[editStudent].roll=roll;
+        students[editStudent].semester=semester;
+        students[editStudent].department=department;
+        students[editStudent].session=session;
+
+        alert("Student updated successfully.");
+
+        editStudent=-1;
+
+    }
+
+    else{
+
+        students.push({
+
+            name:name,
+            roll:roll,
+            semester:semester,
+            department:department,
+            session:session,
+            attendance:[],
+            results:[]
+
+        });
+
+        alert("Student added successfully.");
+
+    }
+
+
+    saveData();
+
+    clearForm();
+
+    showStudents();
+
+    updateDashboard();
+
+}
+
+
+/* ================= CLEAR FORM ================= */
+
+function clearForm(){
+
+    document.getElementById("name").value="";
+    document.getElementById("roll").value="";
+    document.getElementById("semester").value="";
+    document.getElementById("department").value="";
+    document.getElementById("session").value="";
+
+    editStudent=-1;
+
+}
+
+
+/* ================= SHOW STUDENTS ================= */
+
+function showStudents(){
+
+    var list =
+        document.getElementById("studentList");
+
+    list.innerHTML="";
+
+
+    var search =
+        document.getElementById("search")
+        .value.toLowerCase();
+
+
+    var count=0;
+
+
+    for(var i=0;i<students.length;i++){
+
+        var s=students[i];
+
+
+        if(
+            s.name.toLowerCase().indexOf(search)==-1 &&
+            s.roll.toLowerCase().indexOf(search)==-1
+        ){
+
+            continue;
+
+        }
+
+
+        count++;
+
+
+        var row=document.createElement("tr");
+
+
+        row.innerHTML=
+
+        "<td>"+count+"</td>"+
+
+        "<td>"+s.name+"</td>"+
+
+        "<td>"+s.roll+"</td>"+
+
+        "<td>"+s.semester+"</td>"+
+
+        "<td>"+s.department+"</td>"+
+
+        "<td>"+s.session+"</td>"+
+
+        "<td>"+
+
+        "<button class='btn blue' onclick='viewStudent("+i+")'>View</button>"+
+
+        "<button class='btn orange' onclick='editStudentData("+i+")'>Edit</button>"+
+
+        "<button class='btn red' onclick='deleteStudent("+i+")'>Delete</button>"+
+
+        "</td>";
+
+
+        list.appendChild(row);
+
+    }
+
+}
+
+
+/* ================= VIEW STUDENT ================= */
+
+function viewStudent(index){
+
+    selectedStudent=index;
+
+    openPage("attendance");
+
+}
+
+
+/* ================= EDIT STUDENT ================= */
+
+function editStudentData(index){
+
+    var s=students[index];
+
+    document.getElementById("name").value=s.name;
+
+    document.getElementById("roll").value=s.roll;
+
+    document.getElementById("semester").value=s.semester;
+
+    document.getElementById("department").value=s.department;
+
+    document.getElementById("session").value=s.session;
+
+    editStudent=index;
+
+    openPage("students");
+
+}
+
+
+/* ================= DELETE STUDENT ================= */
+
+function deleteStudent(index){
+
+    if(confirm("Delete this student and all records?")){
+
+        students.splice(index,1);
+
+        if(selectedStudent==index){
+
+            selectedStudent=-1;
+
+        }
+
+        saveData();
+
+        showStudents();
+
+        updateDashboard();
+
+    }
+
+}
+
+
+/* ================= SHOW SELECTED STUDENT ================= */
+
+function showSelectedStudent(){
+
+    if(selectedStudent<0 || !students[selectedStudent]){
+
+        document.getElementById("attendanceInfo").innerHTML=
+
+        "<div class='box'>"+
+        "<b>Please select a student from Students page.</b>"+
+        "</div>";
+
+
+        document.getElementById("resultInfo").innerHTML=
+
+        "<div class='box'>"+
+        "<b>Please select a student from Students page.</b>"+
+        "</div>";
+
+        return;
+
+    }
+
+
+    var s=students[selectedStudent];
+
+
+    var html=
+
+    "<div class='box'>"+
+
+    "<h3>Selected Student</h3><br>"+
+
+    "<div class='info-grid'>"+
+
+    "<div class='info'><b>Name:</b> "+s.name+"</div>"+
+
+    "<div class='info'><b>Roll No.:</b> "+s.roll+"</div>"+
+
+    "<div class='info'><b>Semester:</b> "+s.semester+"</div>"+
+
+    "<div class='info'><b>Department:</b> "+s.department+"</div>"+
+
+    "<div class='info'><b>Session:</b> "+s.session+"</div>"+
+
+    "</div>"+
+
+    "</div>";
+
+
+    document.getElementById("attendanceInfo")
+    .innerHTML=html;
+
+    document.getElementById("resultInfo")
+    .innerHTML=html;
+
+
+    showAttendance();
+
+    showResult();
+
+}
+
+
+/* ================= SAVE ATTENDANCE ================= */
+
+function saveAttendance(){
+
+    if(selectedStudent<0){
+
+        alert("First select a student.");
+
+        return;
+
+    }
+
+
+    var subject =
+        document.getElementById("attSubject")
+        .value.trim();
+
+    var total =
+        Number(document.getElementById("totalClass").value);
+
+    var attended =
+        Number(document.getElementById("attendedClass").value);
+
+
+    if(subject=="" || total<=0){
+
+        alert("Please enter subject and total classes.");
+
+        return;
+
+    }
+
+
+    if(attended<0 || attended>total){
+
+        alert("Attended classes must be between 0 and total classes.");
+
+        return;
+
+    }
+
+
+    students[selectedStudent]
+    .attendance.push({
+
+        subject:subject,
+        total:total,
+        attended:attended
+
+    });
+
+
+    saveData();
+
+    document.getElementById("attSubject").value="";
+    document.getElementById("totalClass").value="";
+    document.getElementById("attendedClass").value="";
+
+
+    showAttendance();
+
+    updateDashboard();
+
+    alert("Attendance saved successfully.");
+
+}
+
+
+/* ================= SHOW ATTENDANCE ================= */
+
+function showAttendance(){
+
+    if(selectedStudent<0) return;
+
+
+    var list =
+        document.getElementById("attendanceList");
+
+    list.innerHTML="";
+
+
+    var data =
+        students[selectedStudent].attendance;
+
+
+    var total=0;
+    var attended=0;
+
+
+    for(var i=0;i<data.length;i++){
+
+        var a=data[i];
+
+        var absent=a.total-a.attended;
+
+        var percentage=
+            ((a.attended/a.total)*100).toFixed(2);
+
+
+        total+=a.total;
+
+        attended+=a.attended;
+
+
+        list.innerHTML+=
+
+        "<tr>"+
+
+        "<td>"+(i+1)+"</td>"+
+
+        "<td>"+a.subject+"</td>"+
+
+        "<td>"+a.total+"</td>"+
+
+        "<td>"+a.attended+"</td>"+
+
+        "<td>"+absent+"</td>"+
+
+        "<td>"+percentage+"%</td>"+
+
+        "<td>"+
+
+        "<button class='btn red' onclick='deleteAttendance("+i+")'>Delete</button>"+
+
+        "</td>"+
+
+        "</tr>";
+
+    }
+
+
+    var overall=0;
+
+    if(total>0){
+
+        overall=
+            ((attended/total)*100).toFixed(2);
+
+    }
+
+
+    document.getElementById("overallAttendance")
+    .innerHTML=overall+"%";
+
+}
+
+
+/* ================= DELETE ATTENDANCE ================= */
+
+function deleteAttendance(index){
+
+    students[selectedStudent]
+    .attendance.splice(index,1);
+
+    saveData();
+
+    showAttendance();
+
+    updateDashboard();
+
+}
+
+
+/* ================= SAVE RESULT ================= */
+
+function saveResult(){
+
+    if(selectedStudent<0){
+
+        alert("First select a student.");
+
+        return;
+
+    }
+
+
+    var subject =
+        document.getElementById("resultSubject")
+        .value.trim();
+
+    var max =
+        Number(document.getElementById("maxMarks").value);
+
+    var obtained =
+        Number(document.getElementById("obtainedMarks").value);
+
+
+    if(subject=="" || max<=0){
+
+        alert("Please enter subject and maximum marks.");
+
+        return;
+
+    }
+
+
+    if(obtained<0 || obtained>max){
+
+        alert("Obtained marks cannot be greater than maximum marks.");
+
+        return;
+
+    }
+
+
+    students[selectedStudent]
+    .results.push({
+
+        subject:subject,
+        max:max,
+        obtained:obtained
+
+    });
+
+
+    saveData();
+
+    document.getElementById("resultSubject").value="";
+    document.getElementById("maxMarks").value="";
+    document.getElementById("obtainedMarks").value="";
+
+
+    showResult();
+
+    updateDashboard();
+
+    alert("Result saved successfully.");
+
+}
+
+
+/* ================= GRADE ================= */
+
+function grade(percent){
+
+    if(percent>=90) return "A+";
+
+    if(percent>=80) return "A";
+
+    if(percent>=70) return "B+";
+
+    if(percent>=60) return "B";
+
+    if(percent>=50) return "C";
+
+    if(percent>=40) return "D";
+
+    return "F";
+
+}
+
+
+/* ================= SHOW RESULT ================= */
+
+function showResult(){
+
+    if(selectedStudent<0) return;
+
+
+    var list =
+        document.getElementById("resultList");
+
+    list.innerHTML="";
+
+
+    var data =
+        students[selectedStudent].results;
+
+
+    var total=0;
+    var obtained=0;
+
+
+    for(var i=0;i<data.length;i++){
+
+        var r=data[i];
+
+
+        var percentage=
+            ((r.obtained/r.max)*100).toFixed(2);
+
+
+        total+=r.max;
+
+        obtained+=r.obtained;
+
+
+        list.innerHTML+=
+
+        "<tr>"+
+
+        "<td>"+(i+1)+"</td>"+
+
+        "<td>"+r.subject+"</td>"+
+
+        "<td>"+r.max+"</td>"+
+
+        "<td>"+r.obtained+"</td>"+
+
+        "<td>"+percentage+"%</td>"+
+
+        "<td>"+grade(Number(percentage))+"</td>"+
+
+        "<td>"+
+
+        "<button class='btn red' onclick='deleteResult("+i+")'>Delete</button>"+
+
+        "</td>"+
+
+        "</tr>";
+
+    }
+
+
+    var overall=0;
+
+
+    if(total>0){
+
+        overall=
+            ((obtained/total)*100).toFixed(2);
+
+    }
+
+
+    document.getElementById("overallResult")
+    .innerHTML=overall+"%";
+
+}
+
+
+/* ================= DELETE RESULT ================= */
+
+function deleteResult(index){
+
+    students[selectedStudent]
+    .results.splice(index,1);
+
+    saveData();
+
+    showResult();
+
+    updateDashboard();
+
+}
+
+
+/* ================= DASHBOARD ================= */
+
+function updateDashboard(){
+
+    var attendanceCount=0;
+    var resultCount=0;
+    var passed=0;
+
+
+    for(var i=0;i<students.length;i++){
+
+        attendanceCount +=
+            students[i].attendance.length;
+
+        resultCount +=
+            students[i].results.length;
+
+
+        if(students[i].results.length>0){
+
+            var total=0;
+            var obtained=0;
+
+
+            for(var j=0;j<students[i].results.length;j++){
+
+                total+=students[i].results[j].max;
+
+                obtained+=students[i].results[j].obtained;
+
+            }
+
+
+            if(total>0){
+
+                var p=(obtained/total)*100;
+
+                if(p>=40){
+
+                    passed++;
+
+                }
+
+            }
+
+        }
+
+    }
+
+
+    document.getElementById("totalStudents")
+    .innerHTML=students.length;
+
+    document.getElementById("totalAttendance")
+    .innerHTML=attendanceCount;
+
+    document.getElementById("totalResults")
+    .innerHTML=resultCount;
+
+    document.getElementById("passedStudents")
+    .innerHTML=passed;
+
+}
+
+
+/* ================= START ================= */
+
+showStudents();
+
+updateDashboard();
+
+</script>
+
+</body>
+</html>
